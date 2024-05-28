@@ -1,0 +1,36 @@
+PROJ_NAME = final
+CC = arm-none-eabi-gcc
+OBJCOPY = arm-none-eabi-objcopy
+MACH=cortex-m4
+CFLAGS= -c -mcpu=$(MACH) -mthumb -std=gnu11 -Wall -O0
+LDFLAGS= -nostdlib -T stm32_ls.ld -Wl,-Map=final.map 
+
+# Commands
+all: main.o led.o stm32_startup.o proj
+
+proj: $(PROJ_NAME).elf
+
+main.o:main.c
+	$(CC) $(CFLAGS) -o $@ $^
+
+led.o:led.c
+	$(CC) $(CFLAGS) -o $@ $^
+
+stm32_startup.o:stm32_startup.c
+	$(CC) $(CFLAGS) -o $@ $^
+
+$(PROJ_NAME).elf: main.o led.o stm32_startup.o
+	$(CC) $(LDFLAGS) -o $@ $^
+	$(OBJCOPY) -O ihex $(PROJ_NAME).elf $(PROJ_NAME).hex
+	$(OBJCOPY) -O binary $(PROJ_NAME).elf $(PROJ_NAME).bin
+	
+clean:
+	rm -rf *.o *.elf *.bin *.hex *.map
+
+load:
+	openocd -f board/st_nucleo_f4.cfg
+
+# Flash the STM32F4
+burn: proj
+	st-flash write $(PROJ_NAME).bin 0x8000000
+	#$(STLINK)/st-flash write $(PROJ_NAME).bin 0x8000000 
