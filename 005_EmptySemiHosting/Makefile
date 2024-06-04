@@ -1,7 +1,7 @@
 #Path to stlink folder for uploading code to board                         
 #It does not needed if st-flash --version is recognized in terminal
 #which means st-flash command can be used globally
-STLINK = ~/git_workspace/STM32/stlink-testing/bin
+STLINK = ~/Documents/Workspace/STM32/stlink-testing/bin
 
 #Put your source files here (*.c)                                         
 SRCS = main.c stm32_startup.c #syscalls.c
@@ -15,7 +15,7 @@ SRCS = main.c stm32_startup.c #syscalls.c
 PROJ_NAME = final
 
 #Put your STM32F4 library code directory here, change YOURUSERNAME to yours
-STM_COMMON = /home/ah/git_workspace/STM32/en.stm32f4_fpu_julia/STM32F4xx_AN4044_FW_V1.0.1/
+STM_COMMON = /home/ah/Documents/Workspace/STM32/en.stm32f4_fpu_julia/STM32F4xx_AN4044_FW_V1.0.1/
 
 # Compiler settings. Only edit CFLAGS to include other header files.
 CC = arm-none-eabi-gcc
