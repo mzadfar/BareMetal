@@ -1,19 +1,19 @@
+#include <string.h>
 #include "stm32f4xx.h"
 #include <stdio.h>
 
-char buffer[10];
-
-void RCC_Setup();
-void GPIO_Setup();
-void USART_Setup();
-void ADC_Setup();
-void DMA_Setup();
-void SPI_Setup();
-void TIMER_Setup();
+void RCC_Setup(void);
+void GPIO_Setup(void);
+void VirtualCOMPort_Setup(void);
+void USART_Setup(void);
+void ADC_Setup(void);
+void DMA_Setup(void);
+void SPI_Setup(void);
+void TIMER_Setup(void);
 
 /*USART prototypes*/
-void USART_SendText(USART_TypeDef* USARTx, volatile char *s);
-void USART_SendNumber(USART_TypeDef* USARTx, uint32_t x);
+void USART_SendText(USART_TypeDef* USARTx, volatile char *sendText);
+void USART_SendNumber(USART_TypeDef* USARTx, uint32_t sendNumber);
 
 /*SPI prototypes*/
 void SPI_Tx(uint8_t address, uint8_t data);
@@ -24,6 +24,8 @@ void delayMS(uint32_t ms);
 void delayUS(uint32_t us);
 
 /*Global variables*/
+char buffer[10];
+int i = 0;
 uint32_t g_nTicks; //for us
 uint32_t n;
 uint16_t adcData[2];
@@ -34,6 +36,7 @@ int main(void)
 {
   RCC_Setup();
   GPIO_Setup();
+  VirtualCOMPort_Setup();
   USART_Setup();
   ADC_Setup();
   DMA_Setup();
@@ -41,24 +44,23 @@ int main(void)
   TIMER_Setup();
 
   RCC_ClocksTypeDef RCC_Clocks;
-
   RCC_GetClocksFreq(&RCC_Clocks);
  
   while(1)
   { 
     GPIO_ToggleBits(GPIOB, GPIO_Pin_0 | GPIO_Pin_7 | GPIO_Pin_14);
    
-    USART_SendNumber(USART2, n++);       
-    USART_SendText(USART2, "HI\n");    
+    USART_SendNumber(USART3, n++);       
+    USART_SendText(USART3, "HI\n");    
   
-    USART_SendNumber(USART2, RCC_Clocks.SYSCLK_Frequency);       
-    USART_SendText(USART2, "\t"); 
-    USART_SendNumber(USART2, RCC_Clocks.HCLK_Frequency);       
-    USART_SendText(USART2, "\t"); 
-    USART_SendNumber(USART2, RCC_Clocks.PCLK1_Frequency);       
-    USART_SendText(USART2, "\t"); 
-    USART_SendNumber(USART2, RCC_Clocks.PCLK2_Frequency);       
-    USART_SendText(USART2, "\n"); 
+    USART_SendNumber(USART3, RCC_Clocks.SYSCLK_Frequency);       
+    USART_SendText(USART3, "\t"); 
+    USART_SendNumber(USART3, RCC_Clocks.HCLK_Frequency);       
+    USART_SendText(USART3, "\t"); 
+    USART_SendNumber(USART3, RCC_Clocks.PCLK1_Frequency);       
+    USART_SendText(USART3, "\t"); 
+    USART_SendNumber(USART3, RCC_Clocks.PCLK2_Frequency);       
+    USART_SendText(USART3, "\n"); 
     
     delayMS(1000);
   }
@@ -68,26 +70,28 @@ int main(void)
 void RCC_Setup()
 {
   /*Initialize GPIOB for toggling LEDs*/
-  /*USART_2 (USART_B_RX: PD6 D52 on CN9, USART_B_TX: PD5 D53 on CN9) & USART_6 (USART_A_TX: PG14 D1 on CN10, USART_A_RX: PG9 D0 on CN10)*/
-  /* Initiate clock for GPIOB, GPIOD, and GPIOG */
+  /*USART_2 (USART_B_RX: PD6 D52 on CN9, USART_B_TX: PD5 D53 on CN9) & USART_3 (USART_A_TX: PD8, USART_A_RX: PD9)*/
+  /* Initiate clock for GPIOB and GPIOD*/
   /*Initialize GPIOA for PA3/ADC123_IN3 clock*/
   /*Initialize DMA2 clock*/
-  RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA | RCC_AHB1Periph_GPIOB | RCC_AHB1Periph_GPIOD | RCC_AHB1Periph_GPIOG | RCC_APB1Periph_USART2 | RCC_AHB1Periph_DMA2 | RCC_APB1Periph_TIM3, ENABLE);
+  RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA | RCC_AHB1Periph_GPIOB | RCC_AHB1Periph_GPIOD | RCC_AHB1Periph_DMA2, ENABLE);
   
-  /*Initialize USART2 clock*/
+  /*Initialize USART2 and USART3 clock*/
   /*Initialize TIM3 clock*/
-  RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART2 | RCC_APB1Periph_TIM3, ENABLE);
+  RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART2 | RCC_APB1Periph_USART3 | RCC_APB1Periph_TIM3, ENABLE);
 
-  /*Initialize USART6 clock*/
   /*Initialize ADC1 clock*/
   /*Initialize SPI1 clock*/
-  RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART6 | RCC_APB2Periph_ADC1 | RCC_APB2Periph_SPI1, ENABLE);
+  RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1 | RCC_APB2Periph_SPI1, ENABLE);
 }
 
 void GPIO_Setup()
 {
   /* Initialize GPIOB*/
   GPIO_InitTypeDef GPIO_InitStruct;
+
+  /*Reset every member element of the structure*/
+  memset(&GPIO_InitStruct, 0, sizeof(GPIO_InitStruct));
     
   GPIO_InitStruct.GPIO_Pin  = GPIO_Pin_0 | GPIO_Pin_7 | GPIO_Pin_14;
   GPIO_InitStruct.GPIO_Mode = GPIO_Mode_OUT;
@@ -96,13 +100,15 @@ void GPIO_Setup()
   GPIO_InitStruct.GPIO_PuPd = GPIO_PuPd_NOPULL;
   
   GPIO_Init(GPIOB, &GPIO_InitStruct);
-  
+
   /* Initialize GPIOD*/
-  GPIO_InitStruct.GPIO_Pin  = GPIO_Pin_5 | GPIO_Pin_6;
+  GPIO_InitStruct.GPIO_Pin  = GPIO_Pin_5 | GPIO_Pin_6 | GPIO_Pin_8 | GPIO_Pin_9;
   GPIO_InitStruct.GPIO_Mode = GPIO_Mode_AF;
-  GPIO_InitStruct.GPIO_Speed = GPIO_Speed_50MHz;
+  GPIO_InitStruct.GPIO_Speed = GPIO_Speed_2MHz;
   GPIO_InitStruct.GPIO_OType = GPIO_OType_PP;
-  GPIO_InitStruct.GPIO_PuPd = GPIO_PuPd_NOPULL;
+  GPIO_InitStruct.GPIO_PuPd = GPIO_PuPd_UP;
+
+  GPIO_Init(GPIOD, &GPIO_InitStruct);
   
   /* Initialize SPI1_CS GPIOD*/
   GPIO_InitStruct.GPIO_Pin  = GPIO_Pin_14;
@@ -112,26 +118,9 @@ void GPIO_Setup()
   GPIO_InitStruct.GPIO_PuPd = GPIO_PuPd_NOPULL;
 
   GPIO_Init(GPIOD, &GPIO_InitStruct);
-
+  
   /*Set SPI1_CS*/
   GPIO_SetBits(GPIOD, GPIO_Pin_14);
-
-  /*Connect GPIOD pins to AF*/
-  GPIO_PinAFConfig(GPIOD, GPIO_PinSource5, GPIO_AF_USART2);
-  GPIO_PinAFConfig(GPIOD, GPIO_PinSource6, GPIO_AF_USART2);
-
-  /* Initialize GPIOG */
-  GPIO_InitStruct.GPIO_Pin  = GPIO_Pin_9 | GPIO_Pin_14;
-  GPIO_InitStruct.GPIO_Mode = GPIO_Mode_AF;
-  GPIO_InitStruct.GPIO_Speed = GPIO_Speed_50MHz;
-  GPIO_InitStruct.GPIO_OType = GPIO_OType_PP;
-  GPIO_InitStruct.GPIO_PuPd = GPIO_PuPd_DOWN;
-  
-  GPIO_Init(GPIOG, &GPIO_InitStruct);
-  
-  /*Connect GPIOG pins to AF*/
-  GPIO_PinAFConfig(GPIOG, GPIO_PinSource9, GPIO_AF_USART6);
-  GPIO_PinAFConfig(GPIOG, GPIO_PinSource14, GPIO_AF_USART6);
 
   /* Initialize GPIOA */
   GPIO_InitStruct.GPIO_Pin  = GPIO_Pin_3;
@@ -148,18 +137,70 @@ void GPIO_Setup()
   GPIO_InitStruct.GPIO_PuPd = GPIO_PuPd_DOWN;
 
   GPIO_Init(GPIOA, &GPIO_InitStruct);
-    
-  /*Connect GPIOA pins to AF*/
-  GPIO_PinAFConfig(GPIOA, GPIO_PinSource5, GPIO_AF_SPI1);
-  GPIO_PinAFConfig(GPIOA, GPIO_PinSource6, GPIO_AF_SPI1);
-  GPIO_PinAFConfig(GPIOA, GPIO_PinSource7, GPIO_AF_SPI1);
+}
+
+void VirtualCOMPort_Setup(void)
+{
+  /*USART_3 (USART_C_TX: PD8, USART_C_RX: PD9) has virtual COM port capability*/
+
+  /*Configure USART3*/
+  USART_InitTypeDef USART_InitStruct;
+
+  /*Reset every member element of the structure*/
+  memset(&USART_InitStruct, 0, sizeof(USART_InitStruct));
+
+  /*Connect GPIOD pins to AF for USART3*/
+  GPIO_PinAFConfig(GPIOD, GPIO_PinSource8, GPIO_AF_USART3);
+  GPIO_PinAFConfig(GPIOD, GPIO_PinSource9, GPIO_AF_USART3);
+
+  /*Configure USART3*/
+  USART_InitStruct.USART_BaudRate = 9600;
+  USART_InitStruct.USART_WordLength = USART_WordLength_8b;
+  USART_InitStruct.USART_StopBits = USART_StopBits_1;
+  USART_InitStruct.USART_Parity = USART_Parity_No ;
+  USART_InitStruct.USART_Mode = USART_Mode_Tx | USART_Mode_Rx;
+  USART_InitStruct.USART_HardwareFlowControl = USART_HardwareFlowControl_None;  
+
+  /*Initialize USART3*/
+  USART_Init(USART3, &USART_InitStruct);
+
+  /*Enable USART3*/
+  USART_Cmd(USART3, ENABLE);
+
+  /*Enable interrupt for UART3*/
+  USART_ITConfig(USART3, USART_IT_RXNE, ENABLE);
+
+  /*Enable interrupt to UART3*/
+  NVIC_EnableIRQ(USART3_IRQn);
+}
+
+void USART3_IRQHandler(void)
+{
+  if (USART_GetITStatus(USART3, USART_IT_RXNE))
+  {
+    if (USART_ReceiveData(USART3) == 'K')
+    {
+      GPIO_ToggleBits(GPIOB, GPIO_Pin_0 | GPIO_Pin_7 | GPIO_Pin_14);
+      
+      USART_SendText(USART3, "LED Toggled\n");
+    }
+  }
 }
 
 void USART_Setup()
 {
+  /*USART_2 (USART_B_RX: PD6 D52 on CN9, USART_B_TX: PD5 D53 on CN9)*/
   /*Configure USART2*/
   USART_InitTypeDef USART_InitStruct;
 
+  /*Reset every member element of the structure*/
+  memset(&USART_InitStruct, 0, sizeof(USART_InitStruct));
+
+  /*Connect GPIOD pins to AF to USART2*/
+  GPIO_PinAFConfig(GPIOD, GPIO_PinSource5, GPIO_AF_USART2);
+  GPIO_PinAFConfig(GPIOD, GPIO_PinSource6, GPIO_AF_USART2);
+  
+  /*Configure USART2*/
   USART_InitStruct.USART_BaudRate = 9600;
   USART_InitStruct.USART_WordLength = USART_WordLength_8b;
   USART_InitStruct.USART_StopBits = USART_StopBits_1;
@@ -178,21 +219,19 @@ void USART_Setup()
 
   /*Enable interrupt to UART2*/
   NVIC_EnableIRQ(USART2_IRQn);
+}
 
-
-  /*Configure USART6*/
-  USART_InitStruct.USART_BaudRate = 9600;
-  USART_InitStruct.USART_WordLength = USART_WordLength_8b;
-  USART_InitStruct.USART_StopBits = USART_StopBits_1;
-  USART_InitStruct.USART_Parity = USART_Parity_No ;
-  USART_InitStruct.USART_Mode = USART_Mode_Tx | USART_Mode_Rx;
-  USART_InitStruct.USART_HardwareFlowControl = USART_HardwareFlowControl_None;  
-
-  /*Initialize USART6*/
-  USART_Init(USART6, &USART_InitStruct);
-
-  /*Enable USART6*/
-  USART_Cmd(USART6, ENABLE);
+void USART2_IRQHandler(void)
+{
+  if (USART_GetITStatus(USART2, USART_IT_RXNE))
+  {
+    if (USART_ReceiveData(USART2) == 'L')
+    {
+      GPIO_ToggleBits(GPIOB, GPIO_Pin_0 | GPIO_Pin_7 | GPIO_Pin_14);
+      
+      USART_SendText(USART2, "LED Toggled\n");
+    }
+  }
 }
 
 void ADC_Setup()
@@ -244,19 +283,6 @@ void ADC_Setup()
   ADC_SoftwareStartConv(ADC1);
 }
 
-void USART2_IRQHandler(void)
-{
-  if (USART_GetITStatus(USART2, USART_IT_RXNE))
-  {
-    if (USART_ReceiveData(USART2) == 'K')
-    {
-      GPIO_ToggleBits(GPIOB, GPIO_Pin_0 | GPIO_Pin_7 | GPIO_Pin_14);
-      
-      USART_SendText(USART2, "LED Toggled\n");
-    }
-  }
-}
-
 void DMA_Setup()
 {
   DMA_InitTypeDef DMA_InitStruct;
@@ -287,7 +313,17 @@ void DMA_Setup()
 
 void SPI_Setup()
 {
+  /*SPI1 (SPI_A_SCK: PA5, SPI_A_MISO: PA6, SPI_A_MOSI: PA7)*/
+  /*Configure SPI1*/
   SPI_InitTypeDef SPI_InitStruct;
+
+  /*Reset every member element of the structure*/
+  memset(&SPI_InitStruct, 0, sizeof(SPI_InitStruct));
+
+  /*Connect GPIOA pins to AF*/
+  GPIO_PinAFConfig(GPIOA, GPIO_PinSource5, GPIO_AF_SPI1);
+  GPIO_PinAFConfig(GPIOA, GPIO_PinSource6, GPIO_AF_SPI1);
+  GPIO_PinAFConfig(GPIOA, GPIO_PinSource7, GPIO_AF_SPI1);
 
   /* Initialize the SPI struct members */
   SPI_InitStruct.SPI_Direction = SPI_Direction_2Lines_FullDuplex;
@@ -395,18 +431,17 @@ uint8_t SPI_Rx(uint8_t address)
   return SPI_I2S_ReceiveData(SPI1);
 }
 
-void USART_SendText(USART_TypeDef* USARTx, volatile char *s)
+void USART_SendText(USART_TypeDef* USARTx, volatile char *sendText)
 {
-  while(*s)
+  while(*sendText)
   {
-    /*Wait until data register is empty*/
-    while (!USART_GetFlagStatus(USARTx, USART_FLAG_TXE));
-    USART_SendData(USARTx, *s); 
-    *s++;
+    while(USART_GetFlagStatus(USARTx, USART_FLAG_TXE) != SET);
+    USART_SendData(USARTx, *sendText);
+    *sendText++;
   }
 }
 
-void USART_SendNumber(USART_TypeDef* USARTx, uint32_t x)
+void USART_SendNumber(USART_TypeDef* USARTx, uint32_t sendNumber)
 {
   /*A temp array to build results of conversion*/
   char value[10];
@@ -416,9 +451,9 @@ void USART_SendNumber(USART_TypeDef* USARTx, uint32_t x)
   do
   {
     /*Convert integer to character*/
-    value[i++] = (char)(x % 10) + '0';
-    x /= 10;
-  } while (x);
+    value[i++] = (char)(sendNumber % 10) + '0';
+    sendNumber /= 10;
+  } while (sendNumber);
   
   /*Send data*/
   while(i)

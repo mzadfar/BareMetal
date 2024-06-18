@@ -112,7 +112,7 @@ void VirtualCOMPort_Setup(void)
 {
   /*USART_3 (USART_C_TX: PD8, USART_C_RX: PD9) has virtual COM port capability*/
 
-  /*Configure USART2*/
+  /*Configure USART3*/
   USART_InitTypeDef USART_InitStruct;
 
   /*Reset every member element of the structure*/
@@ -150,15 +150,12 @@ void USART3_IRQHandler(void)
 {
   if (USART_GetITStatus(USART3, USART_IT_RXNE))
   {
-    if (i == 9)
+    if (USART_ReceiveData(USART3) == 'K')
     {
-      i = 0;
-      USART_SendText(USART3, buffer);
-      USART_SendText(USART3, "\n");
       GPIO_ToggleBits(GPIOB, GPIO_Pin_0 | GPIO_Pin_7 | GPIO_Pin_14);
+      
+      USART_SendText(USART3, "LED Toggled\n");
     }
-    buffer[i] = (char) USART_ReceiveData(USART3);
-    i++;
   }
 }
 

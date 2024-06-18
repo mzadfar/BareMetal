@@ -6,11 +6,6 @@ STLINK = ~/Documents/Workspace/STM32/stlink-testing/bin
 #Put your source files here (*.c)                                         
 SRCS = main.c stm32_startup.c syscalls.c
 
-#Libraries source files, add ones that you intent to use                  
-#SRCS += stm32f4xx_rcc.c                                                   
-#SRCS += stm32f4xx_gpio.c                                                  
-#SRCS += stm32f4xx_usart.c
-
 #Binaries will be generated with this name (.elf, .bin, .hex)             
 PROJ_NAME = final
 
