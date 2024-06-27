@@ -93,67 +93,67 @@ The following topics will be practised here on a NUCLEO-F439ZI board:
 
 * A virtual COM port to send character to PC. Open a terminal inside the folder, and run "make clean" to remove "build" folder, then run "make -j all". Then, using using "make stflash" flash the board.
 
-### Virtual COM Port Transmitt Text 
+#### Virtual COM Port Transmitt Text 
 
 * A virtual COM port to send text to PC. First copy folder"[Libraries](https://github.com/ahasanzadeh/BareMetal/tree/main/008_VirtualComTxCharacter)" into this prject folder. Follow corresponding oder for "Virtual COM Port Transmitt Character" above.
 
-### Virtual COM Port Transmitt Number 
+#### Virtual COM Port Transmitt Number 
 
 * A virtual COM port to send number to PC. First copy folder"[Libraries](https://github.com/ahasanzadeh/BareMetal/tree/main/008_VirtualComTxCharacter)" into this prject folder. Follow corresponding oder for "Virtual COM Port Transmitt Character" above.
 
-### SysTick Initialization 
+#### SysTick Initialization 
 
 * SysTick function is initialized to be used instead of for loop delay. First copy folder"[Libraries](https://github.com/ahasanzadeh/BareMetal/tree/main/008_VirtualComTxCharacter)" into this prject folder. Follow corresponding oder for "Virtual COM Port Transmitt Character" above.
 
-### Virtual COM Port Transmitt/Receive Character 
+#### Virtual COM Port Transmitt/Receive Character 
 
 * A virtual COM port to transmit and receive character to and from PC. The receive is interrupt-based. First copy folder"[Libraries](https://github.com/ahasanzadeh/BareMetal/tree/main/008_VirtualComTxCharacter)" into this prject folder. Follow corresponding oder for "Virtual COM Port Transmitt Character" above.
 
-### Virtual COM Port Transmitt/Receive Text 
+#### Virtual COM Port Transmitt/Receive Text 
 
 * A virtual COM port to transmit and receive text to and from PC. The receive is interrupt-based. First copy folder"[Libraries](https://github.com/ahasanzadeh/BareMetal/tree/main/008_VirtualComTxCharacter)" into this prject folder. Follow corresponding oder for "Virtual COM Port Transmitt Character" above.
 
-### Virtual COM Port Buffer/Sendback 
+#### Virtual COM Port Buffer/Sendback 
 
 * A virtual COM port to receive, buffer, and sendback text to PC. The receive is interrupt-based. First copy folder"[Libraries](https://github.com/ahasanzadeh/BareMetal/tree/main/008_VirtualComTxCharacter)" into this prject folder. Follow corresponding oder for "Virtual COM Port Transmitt Character" above.
 
-### UART with Buffer/Sendback 
+#### UART with Buffer/Sendback 
 
 * Beside a UART for virtual COM port, second UART is initialized to breceive, buffer, and sendback text to PC. The receive is interrupt-based. First copy folder"[Libraries](https://github.com/ahasanzadeh/BareMetal/tree/main/008_VirtualComTxCharacter)" into this prject folder. Follow corresponding oder for "Virtual COM Port Transmitt Character" above.
 
-### ADC
+#### ADC
 
 * An ADC channel is established, and read data send to PC via virtual COM port. First copy folder"[Libraries](https://github.com/ahasanzadeh/BareMetal/tree/main/008_VirtualComTxCharacter)" into this prject folder. Follow corresponding oder for "Virtual COM Port Transmitt Character" above.
 
-### ADC READ Float
+#### ADC READ Float
 
 * An ADC channel is established, and read float data send to PC via virtual COM port. First copy folder"[Libraries](https://github.com/ahasanzadeh/BareMetal/tree/main/008_VirtualComTxCharacter)" into this prject folder. Follow corresponding oder for "Virtual COM Port Transmitt Character" above.
 
-### ADC using DMA
+#### ADC using DMA
 
 * An ADC channel is initialized using DMA instead of making CPU busy, and read data send to PC via virtual COM port. First copy folder"[Libraries](https://github.com/ahasanzadeh/BareMetal/tree/main/008_VirtualComTxCharacter)" into this prject folder. Follow corresponding oder for "Virtual COM Port Transmitt Character" above.
 
-### ADC using DMA Reads Board Temperature
+#### ADC using DMA Reads Board Temperature
 
 * An ADC channel is initialized using DMA instead of making CPU busy, and read board temperature data send to PC via virtual COM port. First copy folder"[Libraries](https://github.com/ahasanzadeh/BareMetal/tree/main/008_VirtualComTxCharacter)" into this prject folder. Follow corresponding oder for "Virtual COM Port Transmitt Character" above.
 
-### SPI
+#### SPI
 
 * A SPI channel is stablished. First copy folder"[Libraries](https://github.com/ahasanzadeh/BareMetal/tree/main/008_VirtualComTxCharacter)" into this prject folder. Follow corresponding oder for "Virtual COM Port Transmitt Character" above.
 
-### Timer
+#### Timer
 
 * A Timer channel is stablished. First copy folder"[Libraries](https://github.com/ahasanzadeh/BareMetal/tree/main/008_VirtualComTxCharacter)" into this prject folder. Follow corresponding oder for "Virtual COM Port Transmitt Character" above.
 
-### PWM
+#### PWM
 
 * A PWM channel is stablished. First copy folder"[Libraries](https://github.com/ahasanzadeh/BareMetal/tree/main/008_VirtualComTxCharacter)" into this prject folder. Follow corresponding oder for "Virtual COM Port Transmitt Character" above.
 
-### PWM Dimming
+#### PWM Dimming
 
 * A PWM channel is stablished, and LEDs are dimmed. First copy folder"[Libraries](https://github.com/ahasanzadeh/BareMetal/tree/main/008_VirtualComTxCharacter)" into this prject folder. Follow corresponding oder for "Virtual COM Port Transmitt Character" above.
 
-### DAC
+#### DAC
 
 * A DAC channel is stablished, output signal is read, and sent to PC via virtual COM port. First copy folder"[Libraries](https://github.com/ahasanzadeh/BareMetal/tree/main/008_VirtualComTxCharacter)" into this prject folder. Follow corresponding oder for "Virtual COM Port Transmitt Character" above.
 

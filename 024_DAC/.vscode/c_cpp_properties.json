@@ -8,6 +8,10 @@
                 "${workspaceFolder}/Libraries/STM32F4xx_StdPeriph_Driver/inc",
                 "${workspaceFolder}/Libraries/CMSIS/Include",
                 "${workspaceFolder}/Libraries/CMSIS/Device/ST/STM32F4xx/Include",
+                "${workspaceFolder}/Third-Party/FreeRTOS/org/Source",
+                "${workspaceFolder}/Third-Party/FreeRTOS/org/Source/include",
+                "${workspaceFolder}/Third-Party/FreeRTOS/org/Source/portable/GCC/ARM_CM4F",
+                "${workspaceFolder}/Config",
                 "/usr/bin"
             ],
             "defines": [
@@ -25,10 +29,14 @@
                     "${workspaceFolder}/Libraries/STM32F4xx_StdPeriph_Driver/inc",
                     "${workspaceFolder}/Libraries/CMSIS/Include",
                     "${workspaceFolder}/Libraries/CMSIS/Device/ST/STM32F4xx/Include",
+                    "${workspaceFolder}/Third-Party/FreeRTOS/org/Source",
+                    "${workspaceFolder}/Third-Party/FreeRTOS/org/Source/include",
+                    "${workspaceFolder}/Third-Party/FreeRTOS/org/Source/portable/GCC/ARM_CM4F",
+                    "${workspaceFolder}/Config",
                     "/usr/bin"
                 ],
                 "limitSymbolsToIncludedHeaders": true,
-                "databaseFilename": "${workspaceRoot}/.vscode/browse.vc.db"
+                "databaseFilename": "${workspaceFolder}/.vscode/browse.vc.db"
             }
         }
     ],
