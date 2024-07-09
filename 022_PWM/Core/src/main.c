@@ -26,7 +26,6 @@ void delayUS(uint32_t us);
 /*Global variables*/
 char buffer[10];
 int i = 0;
-uint32_t g_nTicks; // for us
 uint32_t n;
 uint16_t adcData[2];
 float temp;
