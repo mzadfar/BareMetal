@@ -20,7 +20,7 @@ stm32_startup.o:stm32_startup.c
 
 syscalls.o:syscalls.c
 	$(CC) $(CFLAGS) -o $@ $^
-
+#syscalls.o shouldbe excluded
 $(PROJ_NAME).elf: main.o led.o stm32_startup.o
 	$(CC) $(LDFLAGS) -o $@ $^
 	$(OBJCOPY) -O ihex $(PROJ_NAME).elf $(PROJ_NAME).hex
