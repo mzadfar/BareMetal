@@ -65,7 +65,7 @@ format: $(addsuffix .format,$(SRCS))
 # Add any new directories, like Middlewares and hidden files
 HIDDEN_FILES := .mxproject .project .cproject
 FOUND_HIDDEN_FILES := $(shell for f in $(HIDDEN_FILES);do if [[ -e $$f ]]; then echo $$f;fi; done)
-FORMAT_LINUX := $(shell find Libraries -name '*' -type f; find . -name '*.ioc') $(FOUND_HIDDEN_FILES)
+FORMAT_LINUX := $(shell find ../Libraries -name '*' -type f; find . -name '*.ioc') $(FOUND_HIDDEN_FILES)
 
 format-linux: $(addsuffix .format-linux,$(FORMAT_LINUX))
 %.format-linux: %
