@@ -15,7 +15,7 @@ SRCS += stm32f4xx_gpio.c
 PROJ_NAME = final
 
 #Put your STM32F4 library code directory here, change YOURUSERNAME to yours
-STM_COMMON = /home/ah/Documents/Workspace/STM32/en.stm32f4_fpu_julia/STM32F4xx_AN4044_FW_V1.0.1/
+STM_COMMON = ../../#/home/ah/Documents/Workspace/STM32/en.stm32f4_fpu_julia/STM32F4xx_AN4044_FW_V1.0.1/
 
 # Compiler settings. Only edit CFLAGS to include other header files.
 CC = arm-none-eabi-gcc
