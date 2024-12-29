@@ -137,7 +137,7 @@ CFLAGS += -MMD -MP -MF"$(@:%.o=%.d)"
 
 # LDFLAGS
 # link script
-LDSCRIPT = STM32F439NIHx_FLASH.ld
+LDSCRIPT = Startup/STM32F439NIHx_FLASH.ld
 
 # libraries
 ifeq ($(SEMI_HOSTING), 0)
