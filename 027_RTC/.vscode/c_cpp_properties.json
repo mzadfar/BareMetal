@@ -6,10 +6,9 @@
                 "${workspaceFolder}",
                 "${workspaceFolder}/Core/inc",
                 "${workspaceFolder}/Project",
-                "${workspaceFolder}/Libraries/STM32F4xx_StdPeriph_Driver/inc",
-                "${workspaceFolder}/Libraries/CMSIS/Include",
-                "${workspaceFolder}/Libraries/CMSIS/Device/ST/STM32F4xx/Include",
-                "${workspaceFolder}/Config",
+                "${workspaceFolder}../../Libraries/STM32F4xx_StdPeriph_Driver/inc",
+                "${workspaceFolder}../../Libraries/CMSIS/Include",
+                "${workspaceFolder}../../Libraries/CMSIS/Device/ST/STM32F4xx/Include",
                 "/usr/bin"
             ],
             "defines": [
@@ -25,10 +24,9 @@
                     "${workspaceFolder}",
                     "${workspaceFolder}/Core/inc",
                     "${workspaceFolder}/Project",
-                    "${workspaceFolder}/Libraries/STM32F4xx_StdPeriph_Driver/inc",
-                    "${workspaceFolder}/Libraries/CMSIS/Include",
-                    "${workspaceFolder}/Libraries/CMSIS/Device/ST/STM32F4xx/Include",
-                    "${workspaceFolder}/Config",
+                    "${workspaceFolder}../../Libraries/STM32F4xx_StdPeriph_Driver/inc",
+                    "${workspaceFolder}../../Libraries/CMSIS/Include",
+                    "${workspaceFolder}../../Libraries/CMSIS/Device/ST/STM32F4xx/Include",
                     "/usr/bin"
                 ],
                 "limitSymbolsToIncludedHeaders": true,
