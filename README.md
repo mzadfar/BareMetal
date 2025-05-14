@@ -17,8 +17,8 @@ The following topics will be practised here on a NUCLEO-F439ZI board:
 * Virtual COM Port Transmit Text 
 * Virtual COM Port Transmit Number 
 * SysTick Initialization 
-* Virtual COM Port Transmitt/Receive Character 
-* Virtual COM Port Transmitt/Receive Text 
+* Virtual COM Port Transmit/Receive Character 
+* Virtual COM Port Transmit/Receive Text 
 * Virtual COM Port Buffer/Sendback 
 * UART with Buffer/Sendback 
 * ADC
@@ -31,7 +31,7 @@ The following topics will be practised here on a NUCLEO-F439ZI board:
 * PWM Dimming
 * DAC
 * Cmake
-* Dockera and Podman
+* Docker and Podman
 * RTC
 * I2CMaster
 
@@ -39,7 +39,7 @@ The following topics will be practised here on a NUCLEO-F439ZI board:
 
 ### Dependencies
 
-* Host can be any OS like Fedora 40 Linux in this case or Ubuntu, Windows etc.  
+* Host can be any OS like Fedora 42 Linux in this case or Ubuntu, Windows etc.  
 * arm-none-eabi-gcc should be installed.
 * gcc should be installed.
 * cmake should be installed.
@@ -51,9 +51,9 @@ The following topics will be practised here on a NUCLEO-F439ZI board:
 
 ### Installing
 
-* Check arm-none-eabi-gcc --version on a terminal. If it has not been installed, Fedora will suggest to install, and go with it.
-* Check cmake --version on a terminal. If it has not been installed, Fedora will suggest to install, and go with it. Typically, it asks for gcc installation during installing cmake if you have not installed gcc yet.
-* Install [ST-LINK](https://www.st.com/en/development-tools/stsw-link007.html) latest firmware using: sudo rpm -Uhv st-stlink-udev-rules-1.0.3-2-linux-noarch.rpm
+* Check arm-none-eabi-gcc --version on a terminal. If it has not been installed, Fedora will suggest installing, and go with it.
+* Check cmake --version on a terminal. If it has not been installed, Fedora will suggest installing, and go with it. Typically, it asks for gcc installation during installing cmake if you have not installed gcc yet.
+* Install [ST-LINK](https://www.st.com/en/development-tools/stsw-link007.html) the latest firmware using: sudo rpm -Uhv st-stlink-udev-rules-1.0.3-2-linux-noarch.rpm
 * In this Fedora 40 OS, install [ST-LINK](https://koji.fedoraproject.org/koji/buildinfo?buildID=2389744) v1/v2 JTAG/SWD debugging/flashing tool for STM32 microcontrollers using: sudo rpm -Uhv stlink-1.7.0-7.fc40.x86_64.rpm
 * cmake has issue with LIBUSB, and in this Fedora 40 OS using "yum provides */libusb.h" command find a version of LIBUSB that suit you, and install it using (in this case): sudo dnf install libusb1-devel-1.0.27-2.fc40.x86_64
 * Download stlink-testing.zip to open a terminal inside the extracted folder and run cmake.
@@ -63,19 +63,19 @@ The following topics will be practised here on a NUCLEO-F439ZI board:
 
 #### Bare metal with no standard library
 
-* Open a terminal inside the folder, and run "make clean" to remove all previously generated *.hex, *.elf, *.bin, *.srec etc files, and then run "make all". Then, using OPENOCD, you can program the flash,an even debug the code using GDB or Telnet. How to do explanation wiilbe added soon.
+* Open a terminal inside the folder, and run "make clean" to remove all previously generated *.hex, *.elf, *.bin, *.srec etc files, and then run "make all". Then, using OPENOCD, you can program the flash, an even debug the code using GDB or Telnet. How to do explanation will be added soon.
 
 #### Bare metal with standard library
 
-* Follow corresponding order for "Bare metal with no standard library" above. How to do explanation wiilbe added soon.
+* Follow corresponding order for "Bare metal with no standard library" above. How to do explanation will be added soon.
 
 #### Bare metal SemiHosting
 
-* Follow corresponding order for "Bare metal with no standard library" above. How to do explanation wiilbe added soon.
+* Follow corresponding order for "Bare metal with no standard library" above. How to do explanation will be added soon.
 
 #### Bare metal Empty Project with no standard library
 
-* This example placed here for from-scratch practice. Also, Makefile was improved from previous proejcts. Follow corresponding order for "Bare metal with no standard library" above.
+* This example placed here for from-scratch practice. Also, Makefile was improved from previous projects. Follow corresponding order for "Bare metal with no standard library" above.
 
 #### Bare metal Empty Project with standard library
 
@@ -171,7 +171,7 @@ The following topics will be practised here on a NUCLEO-F439ZI board:
 
 #### RTC
 
-* A RTC channel is established. Follow corresponding order for "Virtual COM Port Transmit Character" above.
+* An RTC channel is established. Follow corresponding order for "Virtual COM Port Transmit Character" above.
 
 #### I2CMaster
 
@@ -184,7 +184,7 @@ TBD
 
 ## Authors
 
-Contributors names and contact info
+Contributor names and contact info
 
 TBD
 
